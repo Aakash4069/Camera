@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <video controls autoplay> </video>
+    <audio controls autoplay ></audio> 
+    <button class= "record"> Record</button>
+    <button class= "pause"> pause</button>
+
+    <Script>
+        let videoElem=document.querySelector("video");
+        let audioElem=document.querySelector("audio");
+        let recordBtn=document.querySelector(".record");
+        let pauseBtn=document.querySelector(".pause");
+
+        let isRecording=false;
+        let mediaRecodingObjectForCurrStrem;
+        let recording=[];
+        let constraint ={
+            audio: true,video: true
+        }
+
+        let usermediaPromise=navigator.mediaDevices.getUserMedia(constraint);    // just to neavigate to the browser 
+
+        usermediaPromise.then(function (stream){
+            // this use to directly display the vedio on browser 
+            videoElem.srcObject = stream;   
+            audioElem.srcObject = stream;   
+
+            // this will use for media record
+            mediaRecodingObjectForCurrStrem=new MediaRecorder(stream);
+            mediaRecodingObjectForCurrStrem.ondataavilable=function (e){
+                recording.push(e.data);
+            }
+            mediaRecodingObjectForCurrStrem.onstop = function (){
+
+                const blob=new Blob(recording,{ type: 'video/mp4'});
+                const url=window.URL.createObjectURL(blob);
+                let a=document.createElement("a");
+                a.download="file.mp4";              // 
+                a.href=url;
+                a.click();
+                recording=[];
+            }
+        }).catch(function (err){
+            console.log(err);
+            alert(" Please give permision for camera and audio");
+        })
+
+        recordBtn.addEventListener("click",function (){
+            if(mediaRecodingObjectForCurrStrem == undefined){
+                alert("First Select the Deivce");
+                return;
+            }
+            if(isRecording==false){
+                mediaRecodingObjectForCurrStrem.start();
+                recordBtn.innerText="Recoding...";
+                
+
+            }else{
+                mediaRecodingObjectForCurrStrem.stop();
+                recordBtn.innerTex="Record";
+
+            }
+            isRecording =! isRecording;
+        })
+    </Script>
+
+
+</body>
+</html>
