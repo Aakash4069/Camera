@@ -1,33 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+
+    </style>
+
 </head>
+
 <body>
-        <h1> Canvas Board</h1>
-        <canvas class ="board"></canvas>
+    <h1> Canvas Board</h1>
+    <canvas class="board"></canvas>
 
-        <script>
-            let board = document.querySelector(".board");
-            let tool=board.getContext("2d");
+    <script>
+        let board = document.querySelector(".board");
+        let tool = board.getContext("2d");
 
-            board.height=window.innerHeight;
-            board.wigth= window.innerWidth;
+        board.height = window.innerHeight;
+        board.wigth = window.innerWidth;
 
-            tool.fillStyle="lightgreen";
-            tool.fillRect(0,0,window.innerWidth/2,innerHeight/2);       // default colore is black;
+        tool.fillStyle = "lightgreen";
+        tool.fillRect(0, 0, window.innerWidth / 2, innerHeight / 2);       // default colore is black;
 
-            tool.fillStyle="yellow";
-            tool.lineWidth = 10;
-            tool.strokeRect(0,0,window.innerWidth/2,innerHeight/2);       // default colore is black;
-            
-            tool.fillStyle="red";
-            tool.fillRect(40,40,window.innerWidth/2,innerHeight/2); 
-            
-        </script>
+        // tool.fillStyle="yellow";
+        // tool.lineWidth = 10;
+        // tool.strokeRect(0,0,window.innerWidth/2,innerHeight/2);       // default colore is black;
+
+        // tool.fillStyle="red";
+        // tool.fillRect(40,40,window.innerWidth/2,innerHeight/2); 
+
+        tool.strokeStyle = "yellow";
+        tool.lineWidth = 10;
+        tool.beginPath();
+        tool.moveTo(100, 200);
+        tool.lineTo(200, 50);
+        tool.lineTo(200, 200);
+        tool.moveTo(100, 300);
+        tool.lineTo(200, 300);
+
+        tool.stroke();
+
+        tool.beginPath();
+        tool.lineWidth = 5;
+        tool.strokeStyle = "red";
+
+        tool.moveTo(200, 300);
+        tool.lineTo(200, 200);
+        tool.stroke();
+
+
+
+
+
+    </script>
 
 </body>
+
 </html>
