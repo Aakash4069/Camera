@@ -10,11 +10,9 @@ let constraint = {
 let recording = [];
 let mediarecordingObjectForCurrStream;
 // promise 
-let usermediaPromise = navigator
-    .mediaDevices.getUserMedia(constraint);
+let usermediaPromise = navigator.mediaDevices.getUserMedia(constraint);
 // /stream coming from required
-usermediaPromise.
-    then(function (stream) {
+usermediaPromise.then(function (stream) {
         // UI stream 
         videoElem.srcObject = stream;
         // browser
