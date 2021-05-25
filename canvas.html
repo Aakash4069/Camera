@@ -7,13 +7,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
 
+        body {
+            margin: 0px;
+        }
+
+        .colors {
+            width: 80vw;
+            height: 5rem;
+            border: 2px solid;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .color {
+            height: 70%;
+            width: 20%;
+        }
+
+        .red {
+            background-color: red;
+
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+
+        .download {
+            border: 3px solid;
+            padding-top: 1rem;
+            text-align: center;
+        }
     </style>
 
 </head>
 
 <body>
+
     <h1> Canvas Board</h1>
+    <div class="colors">
+        <div class="color red"></div>
+        <div class="color green"></div>
+        <div class="color blue"></div>
+        <div class="download"></div>
+        <img src="https://picsum.photos/id/237/200/300" crossorigin="anonymous" style="display: none;" alt="">
+
+        <!-- <input type ="file" style="display: none;"> -->
+    </div>
     <canvas class="board"></canvas>
 
     <script>
@@ -21,10 +71,10 @@
         let tool = board.getContext("2d");
 
         board.height = window.innerHeight;
-        board.wigth = window.innerWidth;
+        board.width = window.innerWidth;
 
-        tool.fillStyle = "lightgreen";
-        tool.fillRect(0, 0, window.innerWidth / 2, innerHeight / 2);       // default colore is black;
+        // tool.fillStyle = "lightgreen";
+        // tool.fillRect(0, 0, window.innerWidth / 2, innerHeight / 2);       // default colore is black;
 
         // tool.fillStyle="yellow";
         // tool.lineWidth = 10;
@@ -33,31 +83,110 @@
         // tool.fillStyle="red";
         // tool.fillRect(40,40,window.innerWidth/2,innerHeight/2); 
 
-        tool.strokeStyle = "yellow";
-        tool.lineWidth = 10;
-        tool.beginPath();
-        tool.moveTo(100, 200);
-        tool.lineTo(200, 50);
-        tool.lineTo(200, 200);
-        tool.moveTo(100, 300);
-        tool.lineTo(200, 300);
+        // tool.strokeStyle = "yellow";
+        // tool.lineWidth = 10;
+        // tool.beginPath();
+        // tool.moveTo(100, 200);
+        // tool.lineTo(200, 50);
+        // tool.lineTo(200, 200);
+        // tool.moveTo(100, 300);
+        // tool.lineTo(200, 300);
 
-        tool.stroke();
+        // tool.stroke();
 
-        tool.beginPath();
-        tool.lineWidth = 5;
+        // tool.beginPath();
+        // tool.lineWidth = 5;
+        // tool.strokeStyle = "red";
+
+        // tool.moveTo(200, 300);
+        // tool.lineTo(200, 200);
+        // tool.stroke();
+        // let x,y;    
+
+
+
+
+
+        // tool.beginPath();
+        // // pre();
+        // tool.moveTo(pre.x,pre.y);
+        // // pre();
+        // tool.lineTo(pre.x,pre.y);
+        // tool.stroke();
+
+
+        let isDown = false;
         tool.strokeStyle = "red";
-
-        tool.moveTo(200, 300);
-        tool.lineTo(200, 200);
-        tool.stroke();
+        tool.lineWidth = 10;
 
 
+        let colorArr = document.querySelectorAll(".color");
+        let coloreContainer = document.querySelector(".colors");
 
+        for (let i = 0; i < colorArr.length; i++) {
+            colorArr[i].addEventListener("click", function () {
+
+                let newColor = colorArr[i].classList[1];
+                // tool.strokeStyle = 'light' + newColor;
+                if (newColor == "red") {
+
+                    tool.strokeStyle = newColor;
+                } else {
+                    tool.strokeStyle = "light" + newColor;
+
+                }
+            })
+        }
+        board.addEventListener("mousedown", function (e) {
+
+            console.log(e);
+            tool.beginPath();
+            tool.moveTo(e.clientX, getY(e.clientY));
+            isDown = true;
+        })
+
+        board.addEventListener("mousemove", function (e) {
+
+            if (isDown == true) {
+                tool.lineTo(e.clientX, getY(e.clientY));
+                tool.stroke();
+            }
+        })
+        board.addEventListener("mouseup", function (e) {
+
+            isDown = false;
+        })
+
+        function getY(originalY) {
+            let obj = coloreContainer.getBoundingClientRect();
+            let height = obj.height;
+            return originalY - obj.height;
+        }
 
 
     </script>
+    <script>
+        let download = document.querySelector(".download");
 
+        download.addEventListener("click", function () {
+
+            let url = board.toDataURl();
+            let a = document.createElement("a");
+            a.download = "file.png";
+            a.href = url;
+            a.click();
+            a.remove();
+
+        })
+    </script>
+    <Script>
+        let myImage = document.querySelector("img");
+        myImage.addEventListener("load", function () {
+
+            tool.drawImage(myImage, 0, 0);
+        })
+
+    </Script>
 </body>
 
 </html>
